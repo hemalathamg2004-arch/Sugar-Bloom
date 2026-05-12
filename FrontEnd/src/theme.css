@@ -1,0 +1,81 @@
+/* Global Dark Mode Overrides */
+body.dark-mode {
+    background-color: #121212 !important;
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .outerNavbar {
+    background: rgba(18, 18, 18, 0.9) !important;
+    border-bottom: 1px solid #333 !important;
+}
+
+body.dark-mode .Navbar {
+    background-color: #1e1e1e !important;
+}
+
+body.dark-mode .navbut {
+    color: #ff8fb1 !important;
+}
+
+body.dark-mode .outerHero {
+    background: #121212 !important;
+}
+
+body.dark-mode h1, 
+body.dark-mode h2, 
+body.dark-mode h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode p {
+    color: #b0b0b0 !important;
+}
+
+body.dark-mode .card {
+    background: #1e1e1e !important;
+    border: 1px solid #333 !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4) !important;
+}
+
+body.dark-mode .card-title {
+    color: #ffffff !important;
+}
+
+body.dark-mode .card-description {
+    color: #b0b0b0 !important;
+}
+
+body.dark-mode .search-container {
+    background: #121212 !important;
+}
+
+body.dark-mode .search-input {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .about-container {
+    background: #121212 !important;
+}
+
+body.dark-mode .highlight-section {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5) !important;
+}
+
+body.dark-mode .about-section {
+    background: #1e1e1e !important;
+    border-color: #333 !important;
+}
+
+body.dark-mode .stat-item {
+    background: rgba(30, 30, 30, 0.8) !important;
+    border-color: #444 !important;
+}
+
+body.dark-mode footer {
+    background: #1a1a1a !important;
+    border-top: 1px solid #333 !important;
+}
