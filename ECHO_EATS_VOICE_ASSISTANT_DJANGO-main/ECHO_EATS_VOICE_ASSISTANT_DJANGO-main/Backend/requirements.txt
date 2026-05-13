@@ -6,3 +6,4 @@ gunicorn
 razorpay
 openai
 python-dotenv
+dj-database-url

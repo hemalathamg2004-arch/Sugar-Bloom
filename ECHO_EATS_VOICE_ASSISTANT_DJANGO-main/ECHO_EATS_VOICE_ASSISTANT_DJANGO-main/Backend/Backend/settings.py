@@ -81,15 +81,15 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'voiceassistant',
-        'PASSWORD':'Laya@2003',
-        'HOST':'localhost',
-        'USER':'root'
-    }
+    'default': dj_database_url.config(
+        default='mysql://root:Laya@2003@localhost:3306/voiceassistant',
+        conn_max_age=600
+    )
 }
+
 
 
 # Password validation
