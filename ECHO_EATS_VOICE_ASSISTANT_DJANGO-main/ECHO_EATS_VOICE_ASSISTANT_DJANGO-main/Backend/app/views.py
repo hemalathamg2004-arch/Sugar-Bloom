@@ -9,6 +9,7 @@ import random
 import string
 from openai import OpenAI
 from datetime import datetime
+import os
 
 
 
@@ -43,7 +44,7 @@ def process_voice(request):
             print("User said:", transcript)
             
             openai_client = OpenAI(
-                api_key='YOUR_GROQ_API_KEY',
+                api_key=os.getenv('GROQ_API_KEY', 'YOUR_GROQ_API_KEY'),
                 base_url="https://api.groq.com/openai/v1",
             )
             
@@ -188,14 +189,31 @@ Return ONLY the JSON object, no additional text.
             })
             
         except Exception as e:
-            print("Error processing voice:", str(e))
-            # Return a friendly AI response even on error so the frontend doesn't crash
+            print("AI Error, using Fallback Matcher:", str(e))
+            
+            # EMERGENCY FALLBACK: Match keywords if AI fails
+            text = transcript.lower()
+            response_text = "I'm processing your order using my backup engine."
+            command = "UNKNOWN"
+            items = []
+            
+            if "order" in text or "add" in text or "buy" in text:
+                command = "ORDER"
+                for name, price, category in food_data:
+                    if name.lower() in text:
+                        items.append({"name": name, "quantity": 1})
+                response_text = f"I've added {len(items)} items to your cart using my backup system."
+            elif "login" in text:
+                command = "NAVIGATE"
+                response_text = "Taking you to login."
+            
             return JsonResponse({
-                "status": "Error",
-                "transcript": transcript if 'transcript' in locals() else "",
+                "status": "Fallback ✅",
+                "transcript": transcript,
                 "aiResponse": {
-                    "command": "UNKNOWN",
-                    "response": f"Sorry, I encountered an internal error. {str(e)}"
+                    "command": command,
+                    "items": items,
+                    "response": response_text
                 }
             })
 

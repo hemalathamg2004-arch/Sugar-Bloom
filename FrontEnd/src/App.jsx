@@ -9,17 +9,7 @@ import './theme.css';
 const App = () => {
 
   useEffect(() => {
-    console.log("React is running");
-
-    fetch("https://sugar-bloom.onrender.com/")
-      .then(res => res.json())
-      .then(data => {
-        console.log("DATA FROM BACKEND:", data);
-      })
-      .catch(err => {
-        console.log("ERROR:", err);
-      });
-
+    console.log("Sugar Bloom is running");
   }, []);
 
   return (

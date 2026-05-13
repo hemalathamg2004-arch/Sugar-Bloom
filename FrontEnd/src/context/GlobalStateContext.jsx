@@ -16,19 +16,39 @@ export const GlobalStateProvider = ({ children }) => {
   const navigate = useNavigate()
 
   const syncCartState = useCallback((data) => {
-    const total = data.reduce((sum, item) => sum + (item.Quantity || 0), 0)
+    if (!Array.isArray(data)) return;
+    const total = data.reduce((sum, item) => sum + (item.Quantity || item.quantity || 0), 0)
     setQuantity(total)
     setDisplayCart(total > 0)
   }, [])
 
   const fetchFoodData = useCallback(async () => {
     try {
+      setLoading(true)
       const res = await fetch('https://sugar-bloom.onrender.com/')
       const data = await res.json()
-      setFoodData(data)
-      syncCartState(data)
+      
+      if (Array.isArray(data)) {
+        // Normalize keys to lowercase for internal consistency
+        const normalizedData = data.map(item => ({
+          ...item,
+          FoodID: item.FoodID || item.foodid,
+          FoodName: item.FoodName || item.foodname,
+          Price: item.Price || item.price,
+          Category: item.Category || item.category,
+          ImageName: item.ImageName || item.imagename,
+          Description: item.Description || item.description,
+          Quantity: item.Quantity || item.quantity || 0
+        }))
+        setFoodData(normalizedData)
+        syncCartState(normalizedData)
+      } else {
+        console.error('Unexpected data format from backend:', data)
+      }
     } catch (error) {
       console.error('Error fetching food data:', error)
+    } finally {
+      setLoading(false)
     }
   }, [syncCartState])
 
@@ -47,7 +67,6 @@ export const GlobalStateProvider = ({ children }) => {
       setIsLoggedIn(true)
     }
 
-    setLoading(false)
     fetchFoodData()
   }, [fetchFoodData])
 
@@ -121,12 +140,14 @@ export const GlobalStateProvider = ({ children }) => {
       const sessionRes = await fetch(`https://sugar-bloom.onrender.com/session-cart/${sessionId}/`)
       const sessionCart = await sessionRes.json()
 
-      for (const item of sessionCart) {
-        await fetch(`https://sugar-bloom.onrender.com/update-quantity/${item.food_id}/`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ quantity: item.quantity }),
-        })
+      if (Array.isArray(sessionCart)) {
+        for (const item of sessionCart) {
+          await fetch(`https://sugar-bloom.onrender.com/update-quantity/${item.food_id}/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ quantity: item.quantity }),
+          })
+        }
       }
 
       await fetch(`https://sugar-bloom.onrender.com/session-cart/clear/${sessionId}/`, {

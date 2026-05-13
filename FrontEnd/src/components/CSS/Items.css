@@ -396,4 +396,30 @@ body[class*="mood-aura-"]::before {
 @keyframes auraFadeIn {
     0% { opacity: 0; }
     100% { opacity: 1; }
+
+/* --- Loading & Empty States --- */
+.items-loading, .no-items {
+    text-align: center;
+    padding: 3rem;
+    color: #d86a8a;
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f1d3dc;
+    border-top: 5px solid #d86a8a;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

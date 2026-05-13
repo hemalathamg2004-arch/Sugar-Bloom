@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-rr&x8m$sg0-w8vg7+u-36p0i7hf1n90)^#k0(lu_x64&-g-ply
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -56,7 +56,14 @@ ROOT_URLCONF = 'Backend.urls'
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
+    "https://sugar-bloom-lime.vercel.app",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://sugar-bloom.onrender.com",
+    "https://sugar-bloom-lime.vercel.app",
+]
+
 
 CORS_ALLOW_ALL_ORIGINS = True
 
