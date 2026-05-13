@@ -23,7 +23,7 @@ export const GlobalStateProvider = ({ children }) => {
 
   const fetchFoodData = useCallback(async () => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/')
+      const res = await fetch('https://sugar-bloom.onrender.com/')
       const data = await res.json()
       setFoodData(data)
       syncCartState(data)
@@ -65,7 +65,7 @@ export const GlobalStateProvider = ({ children }) => {
       let response
 
       if (isLoggedIn && user) {
-        response = await fetch(`http://127.0.0.1:8000/update-quantity/${foodId}/`, {
+        response = await fetch(`https://sugar-bloom.onrender.com/update-quantity/${foodId}/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: delta }),
@@ -75,7 +75,7 @@ export const GlobalStateProvider = ({ children }) => {
         const currentQty = currentItem?.Quantity || 0
         const newQuantity = Math.max(0, currentQty + delta)
 
-        response = await fetch('http://127.0.0.1:8000/session-cart/', {
+        response = await fetch('https://sugar-bloom.onrender.com/session-cart/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ sessionId, foodId, quantity: newQuantity }),
@@ -96,14 +96,14 @@ export const GlobalStateProvider = ({ children }) => {
       if (isLoggedIn && user) {
         const itemsInCart = foodData.filter(item => item.Quantity > 0)
         for (const item of itemsInCart) {
-          await fetch(`http://127.0.0.1:8000/update-quantity/${item.FoodID}/`, {
+          await fetch(`https://sugar-bloom.onrender.com/update-quantity/${item.FoodID}/`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ quantity: -item.Quantity }),
           })
         }
       } else {
-        await fetch(`http://127.0.0.1:8000/session-cart/clear/${sessionId}/`, {
+        await fetch(`https://sugar-bloom.onrender.com/session-cart/clear/${sessionId}/`, {
           method: 'DELETE',
         })
       }
@@ -118,18 +118,18 @@ export const GlobalStateProvider = ({ children }) => {
 
   const transferSessionCartToUser = useCallback(async () => {
     try {
-      const sessionRes = await fetch(`http://127.0.0.1:8000/session-cart/${sessionId}/`)
+      const sessionRes = await fetch(`https://sugar-bloom.onrender.com/session-cart/${sessionId}/`)
       const sessionCart = await sessionRes.json()
 
       for (const item of sessionCart) {
-        await fetch(`http://127.0.0.1:8000/update-quantity/${item.food_id}/`, {
+        await fetch(`https://sugar-bloom.onrender.com/update-quantity/${item.food_id}/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: item.quantity }),
         })
       }
 
-      await fetch(`http://127.0.0.1:8000/session-cart/clear/${sessionId}/`, {
+      await fetch(`https://sugar-bloom.onrender.com/session-cart/clear/${sessionId}/`, {
         method: 'DELETE',
       })
     } catch (error) {
@@ -154,7 +154,7 @@ export const GlobalStateProvider = ({ children }) => {
     await clearCart()
 
     try {
-      await fetch(`http://127.0.0.1:8000/logout/${user.user_id}/`, { method: 'POST' })
+      await fetch(`https://sugar-bloom.onrender.com/logout/${user.user_id}/`, { method: 'POST' })
     } catch (error) {
       console.error('Logout error:', error)
     }

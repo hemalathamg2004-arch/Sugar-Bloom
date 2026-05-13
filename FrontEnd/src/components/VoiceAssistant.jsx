@@ -81,7 +81,7 @@ const VoiceAssistant = () => {
 
   const handleLogin = async (email, password) => {
     try {
-      const res = await fetch('http://127.0.0.1:8000/login/', {
+      const res = await fetch('https://sugar-bloom.onrender.com/login/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -220,7 +220,7 @@ const VoiceAssistant = () => {
   const processVoiceCommand = useCallback(async (command) => {
     setIsProcessing(true);
     try {
-      const res = await fetch('http://127.0.0.1:8000/voice/', {
+      const res = await fetch('https://sugar-bloom.onrender.com/voice/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: command }),

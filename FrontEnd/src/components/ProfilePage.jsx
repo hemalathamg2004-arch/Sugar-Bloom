@@ -20,7 +20,7 @@ const ProfilePage = () => {
 
     const fetchUserOrders = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/orders/${user.user_id}/`)
+            const response = await fetch(`https://sugar-bloom.onrender.com/orders/${user.user_id}/`)
             const data = await response.json()
             setOrders(data)
             setLoading(false)

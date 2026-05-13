@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     console.log("React is running");
 
-    fetch("http://127.0.0.1:8000/")
+    fetch("https://sugar-bloom.onrender.com/")
       .then(res => res.json())
       .then(data => {
         console.log("DATA FROM BACKEND:", data);

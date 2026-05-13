@@ -61,7 +61,7 @@ const CartPage = () => {
         setLoading(true)
 
         try {
-            const orderResponse = await fetch("http://127.0.0.1:8000/create-order/", {
+            const orderResponse = await fetch("https://sugar-bloom.onrender.com/create-order/", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -113,7 +113,7 @@ const CartPage = () => {
     setLoading(true)
 
     try {
-        const orderResponse = await fetch("http://127.0.0.1:8000/create-order/", {
+        const orderResponse = await fetch("https://sugar-bloom.onrender.com/create-order/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -151,7 +151,7 @@ const CartPage = () => {
             order_id: orderData.razorpayOrderId,
             handler: async (response) => {
                 try {
-                    const verifyResponse = await fetch("http://127.0.0.1:8000/verify-payment/", {
+                    const verifyResponse = await fetch("https://sugar-bloom.onrender.com/verify-payment/", {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
