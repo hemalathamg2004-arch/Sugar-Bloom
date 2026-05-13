@@ -84,11 +84,9 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='mysql://root:Laya@2003@localhost:3306/voiceassistant',
-        conn_max_age=600
-    )
+    'default': dj_database_url.parse('mysql://avnadmin:AVNS_6A6P-39f88vUv8eL7I5@mysql-488ad68-hemalathamg2004-e7c7.h.aivencloud.com:16576/defaultdb?ssl-mode=REQUIRED')
 }
+
 
 
 
