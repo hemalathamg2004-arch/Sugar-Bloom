@@ -14,7 +14,7 @@ class FoodItems(models.Model):
     stock = models.IntegerField(default=0)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'FoodItems'
 
     def __str__(self):
@@ -36,7 +36,7 @@ class Orders(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'orders'
 
     def __str__(self):
@@ -51,7 +51,7 @@ class SessionCarts(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'session_carts'
 
     def __str__(self):
@@ -66,7 +66,7 @@ class Users(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'users'
 
     def __str__(self):

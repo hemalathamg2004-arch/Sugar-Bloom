@@ -1,23 +1,43 @@
-import mysql.connector
-from datetime import datetime
+import MySQLdb
+import sys
 
-# Database connection details
+# Cloud Database connection details
 DB_CONFIG = {
-    'host': 'localhost',
-    'user': 'root',
-    'password': 'Laya@2003',
-    'database': 'voiceassistant'
+    'host': 'mysql-488ad68-hemalathamg2004-e7c7.h.aivencloud.com',
+    'user': 'avnadmin',
+    'passwd': 'AVNS_zIiJCNhbHOmY5UH1wTU',
+    'db': 'defaultdb',
+    'port': 16576,
+    'ssl': {'ca': ''}  # SSL is required for Aiven
 }
 
 def update_database():
     try:
-        print("Connecting to the database...")
-        conn = mysql.connector.connect(**DB_CONFIG)
+        print("Connecting to the Aiven Cloud database...")
+        conn = MySQLdb.connect(**DB_CONFIG)
         cursor = conn.cursor()
 
-        # Force clear the table
-        print("Truncating food items table...")
-        cursor.execute("TRUNCATE TABLE FoodItems;")
+        # Create table if it doesn't exist
+        print("Creating table if not exists...")
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS FoodItems (
+                foodid INT AUTO_INCREMENT PRIMARY KEY,
+                foodname VARCHAR(100) NOT NULL,
+                description TEXT,
+                price DECIMAL(10, 2) NOT NULL,
+                category VARCHAR(50),
+                imagename VARCHAR(255),
+                isavailable INT DEFAULT 1,
+                rating DECIMAL(2, 1),
+                dateadded DATETIME DEFAULT CURRENT_TIMESTAMP,
+                quantity INT DEFAULT 0,
+                stock INT DEFAULT 0
+            );
+        """)
+
+        # Clear the table
+        print("Cleaning up food items table...")
+        cursor.execute("DELETE FROM FoodItems;")
         
         # 28 Pink Dessert Items
         new_items = [
@@ -44,7 +64,6 @@ def update_database():
             # Donuts
             ("Pink Glazed Donut", "Classic ring donut with sweet pink strawberry glaze and sprinkles.", 80.00, "Donuts", "https://i.pinimg.com/736x/cc/e9/4d/cce94d9d2f26ed2b5c62b6c0cd463914.jpg", 1, 4.8, 0, 50),
             ("Chocolate Glazed Donut", "Classic ring donut with sweet chocolate glaze and sprinkles.", 80.00, "Donuts", "https://mommyshomecooking.com/wp-content/uploads/2025/02/Easy-Chocolate-Frosted-Cake-Donuts-Egg-Free-17.jpg", 1, 4.8, 0, 50),
-            
             
             # Muffins
             ("Raspberry Pink Muffin", "Soft and fluffy muffin bursting with fresh pink raspberries.", 110.00, "Muffins", "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?q=80&w=600&auto=format&fit=crop", 1, 4.7, 0, 40),
@@ -82,17 +101,17 @@ def update_database():
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
 
-        print("Inserting 28 pink dessert items...")
+        print(f"Inserting {len(new_items)} pink dessert items into the Cloud...")
         cursor.executemany(insert_query, new_items)
         
         # Commit changes
         conn.commit()
         print(f"Successfully inserted {cursor.rowcount} unique pink items!")
 
-    except mysql.connector.Error as err:
+    except Exception as err:
         print(f"Error: {err}")
     finally:
-        if 'conn' in locals() and conn.is_connected():
+        if 'conn' in locals():
             cursor.close()
             conn.close()
             print("Database connection closed.")
