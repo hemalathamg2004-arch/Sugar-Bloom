@@ -84,8 +84,9 @@ WSGI_APPLICATION = 'Backend.wsgi.application'
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.parse('mysql://avnadmin:AVNS_zI_JCNhbH0mYSUH1wTU@mysql-488ad68-hemalathamg2004-e7c7.h.aivencloud.com:16576/defaultdb?ssl_mode=REQUIRED')
+    'default': dj_database_url.parse('mysql://avnadmin:AVNS_zIiJCNhbHOmY5UH1wTU@mysql-488ad68-hemalathamg2004-e7c7.h.aivencloud.com:16576/defaultdb?ssl_mode=REQUIRED')
 }
+
 
 
 
