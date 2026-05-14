@@ -33,6 +33,7 @@ def get_food_items(request):
             return JsonResponse(food_items, safe=False)
         except Exception as e:
             return JsonResponse({"error": str(e)}, status=500)
+    return JsonResponse({"status": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def process_voice(request):
@@ -216,6 +217,7 @@ Return ONLY the JSON object, no additional text.
                     "response": response_text
                 }
             })
+    return JsonResponse({"status": "Method not allowed"}, status=405)
 
 @csrf_exempt
 def update_quantity(request, id):
