@@ -120,7 +120,8 @@ const VoiceAssistant = () => {
         await handleCommand(data.aiResponse);
       }
     } catch (err) {
-      setAssistantResponse('Connection Error. Check your internet.');
+      console.error("Mic API Error:", err);
+      setAssistantResponse(`Network Error: ${err.message}. Try again.`);
     } finally {
       setIsProcessing(false);
     }
