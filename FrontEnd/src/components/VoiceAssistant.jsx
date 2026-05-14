@@ -101,11 +101,11 @@ const VoiceAssistant = () => {
         setTimeout(() => {
           if (commandData.items && commandData.items.length > 0) {
             const firstItemName = commandData.items[0].toLowerCase();
-            const allCards = document.querySelectorAll('.food-card');
+            const allCards = document.querySelectorAll('.card');
             let foundElement = null;
 
             allCards.forEach(card => {
-              const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+              const title = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
               if (title.includes(firstItemName)) {
                 foundElement = card;
                 card.style.transition = 'all 0.5s ease';
