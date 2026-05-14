@@ -151,7 +151,7 @@ Based on the user's voice input, respond with ONE of these command types:
   - Stressed: Rich Chocolate, Brownies, or Comforting treats.
   - Happy: Colorful Donuts, Sprinkled Cupcakes, or Ice Cream.
   - Sad: Heartwarming Muffins, Puddings, or Sweet Cookies.
-- CRITICAL: KEEP YOUR RESPONSE EXTREMELY SHORT AND PUNCHY (maximum 1 short sentence). Do not give long explanations. Example: "I recommend the Pink Rose Layer Cake for your celebration!"
+- CRITICAL: KEEP YOUR RESPONSE EXTREMELY SHORT AND PUNCHY (maximum 1 short sentence). You MUST explicitly mention the specific name of the dessert you are recommending. Example: "I recommend the Chocolate Brownie to soothe your stress!"
 
 Return ONLY the JSON object, no additional text.
 """
