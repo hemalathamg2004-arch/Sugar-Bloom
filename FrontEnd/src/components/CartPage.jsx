@@ -143,7 +143,7 @@ const CartPage = () => {
         }
 
         const options = {
-            key: 'rzp_test_SoO0Dys3I4m9gC',
+            key: 'rzp_test_SpALyMjbP3WhAC',
             amount: total * 100,
             currency: 'INR',
             name: 'Sugar Bloom',
