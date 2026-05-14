@@ -16,6 +16,12 @@ const VoiceAssistant = () => {
   
   // Native Speech Recognition Reference
   const recognitionRef = useRef(null);
+  const foodDataRef = useRef(foodData);
+
+  // Keep Ref updated with latest foodData
+  useEffect(() => {
+    foodDataRef.current = foodData;
+  }, [foodData]);
 
   // Initialize Speech Recognition
   useEffect(() => {
@@ -87,7 +93,7 @@ const VoiceAssistant = () => {
       case 'ORDER':
         if (commandData.items) {
           for (const item of commandData.items) {
-            const food = foodData.find(f => (f.FoodName || f.foodname || '').toLowerCase().includes(item.name.toLowerCase()));
+            const food = foodDataRef.current.find(f => (f.FoodName || f.foodname || '').toLowerCase().includes(item.name.toLowerCase()));
             if (food) {
               await updateQuantity(food.FoodID || food.foodid, item.quantity || 1);
               
