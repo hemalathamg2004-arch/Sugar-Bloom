@@ -96,6 +96,37 @@ const VoiceAssistant = () => {
         document.body.className = '';
         document.body.classList.add(`mood-aura-${commandData.mood?.toLowerCase() || 'happy'}`);
         navigate('/');
+        
+        // Scroll to and highlight the items
+        setTimeout(() => {
+          if (commandData.items && commandData.items.length > 0) {
+            const firstItemName = commandData.items[0].toLowerCase();
+            const allCards = document.querySelectorAll('.food-card');
+            let foundElement = null;
+
+            allCards.forEach(card => {
+              const title = card.querySelector('h3')?.textContent?.toLowerCase() || '';
+              if (title.includes(firstItemName)) {
+                foundElement = card;
+                card.style.transition = 'all 0.5s ease';
+                card.style.transform = 'scale(1.08)';
+                card.style.boxShadow = '0 0 30px #ff69b4';
+                card.style.borderColor = '#ff69b4';
+                
+                // Remove highlight after 5 seconds
+                setTimeout(() => {
+                  card.style.transform = 'scale(1)';
+                  card.style.boxShadow = '';
+                  card.style.borderColor = '';
+                }, 5000);
+              }
+            });
+
+            if (foundElement) {
+              foundElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+          }
+        }, 800);
         break;
       case 'LOGOUT':
         await logout();
