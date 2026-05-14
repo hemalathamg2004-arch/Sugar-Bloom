@@ -231,52 +231,6 @@ const CartPage = () => {
     }
 }
 
-    const handleDemoPayment = async () => {
-        setShowPaymentModal(false)
-        window.location.hash = ''
-        setLoading(true)
-
-        // Simulate a tiny delay for realism
-        setTimeout(async () => {
-            try {
-                // We'll still try to create a "Demo" order on the backend
-                const orderResponse = await fetch("https://sugar-bloom.onrender.com/create-order/", {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: user.user_id,
-                        amount: total,
-                        items: cartItems,
-                        paymentMethod: 'Demo Mode'
-                    })
-                })
-
-                setOrderMessage('✨ Demo Payment Successful! Order placed.')
-                setShowOrderPopup(true)
-
-                // Clear cart locally
-                for (const item of cartItems) {
-                    await updateQuantity(item.FoodID, -item.Quantity)
-                }
-
-                setTimeout(() => {
-                    setShowOrderPopup(false)
-                    navigate('/orders')
-                }, 3000)
-
-            } catch (error) {
-                console.error("Demo order error:", error)
-                // Even if backend fails, let's just clear the cart for the demo
-                for (const item of cartItems) {
-                    await updateQuantity(item.FoodID, -item.Quantity)
-                }
-                navigate('/orders')
-            } finally {
-                setLoading(false)
-            }
-        }, 1500)
-    }
-
     return (
         <div className="cart-container">
             {showOrderPopup && (
@@ -302,14 +256,6 @@ const CartPage = () => {
                             disabled={loading}
                         >
                             📱 UPI / Card / NetBanking
-                        </button>
-                        <button 
-                            className="payment-option demo" 
-                            style={{ background: '#ff69b4', color: 'white' }}
-                            onClick={handleDemoPayment}
-                            disabled={loading}
-                        >
-                            ⭐ Demo Payment (Skip Real Pay)
                         </button>
                         <button 
                             className="payment-option cancel" 
