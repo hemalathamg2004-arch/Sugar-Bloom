@@ -1,0 +1,20 @@
+{
+  "short_name": "Sugar Bloom",
+  "name": "Sugar Bloom - Voice Enabled Dessert Shop",
+  "icons": [
+    {
+      "src": "logo_pink.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "logo_pink.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#ff69b4",
+  "background_color": "#fff5f8"
+}
