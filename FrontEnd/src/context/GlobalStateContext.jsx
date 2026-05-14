@@ -71,44 +71,50 @@ export const GlobalStateProvider = ({ children }) => {
   }, [fetchFoodData])
 
   const updateQuantity = useCallback(async (foodId, delta) => {
+    let finalNewQuantity = 0;
+
+    // 1. Update local state first using functional update to avoid race conditions
     setFoodData(prev => {
+      const currentItem = prev.find(item => item.FoodID === foodId);
+      const currentQty = currentItem?.Quantity || 0;
+      finalNewQuantity = Math.max(0, currentQty + delta);
+
       const updated = prev.map(item => {
-        if (item.FoodID !== foodId) return item
-        return { ...item, Quantity: Math.max(0, (item.Quantity || 0) + delta) }
-      })
-      syncCartState(updated)
-      return updated
-    })
+        if (item.FoodID !== foodId) return item;
+        return { ...item, Quantity: finalNewQuantity };
+      });
+      
+      syncCartState(updated);
+      return updated;
+    });
 
+    // 2. Sync with backend
     try {
-      let response
-
+      let response;
       if (isLoggedIn && user) {
         response = await fetch(`https://sugar-bloom.onrender.com/update-quantity/${foodId}/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: delta }),
-        })
+        });
       } else {
-        const currentItem = foodData.find(item => item.FoodID === foodId)
-        const currentQty = currentItem?.Quantity || 0
-        const newQuantity = Math.max(0, currentQty + delta)
-
+        // We use the same sessionId to sync the cart for non-logged in users
         response = await fetch('https://sugar-bloom.onrender.com/session-cart/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sessionId, foodId, quantity: newQuantity }),
-        })
+          body: JSON.stringify({ sessionId, foodId, quantity: finalNewQuantity }),
+        });
       }
 
       if (!response.ok) {
-        fetchFoodData()
+        console.error('Backend update failed, rolling back...');
+        fetchFoodData();
       }
     } catch (error) {
-      console.error('Error updating quantity:', error)
-      fetchFoodData()
+      console.error('Error updating quantity:', error);
+      fetchFoodData();
     }
-  }, [isLoggedIn, user, sessionId, foodData, syncCartState, fetchFoodData])
+  }, [isLoggedIn, user, sessionId, syncCartState, fetchFoodData]);
 
   const clearCart = useCallback(async () => {
     try {
