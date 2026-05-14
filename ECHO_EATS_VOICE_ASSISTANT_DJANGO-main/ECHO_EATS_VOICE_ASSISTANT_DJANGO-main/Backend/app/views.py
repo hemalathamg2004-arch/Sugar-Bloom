@@ -151,7 +151,7 @@ Based on the user's voice input, respond with ONE of these command types:
   - Stressed: Rich Chocolate, Brownies, or Comforting treats.
   - Happy: Colorful Donuts, Sprinkled Cupcakes, or Ice Cream.
   - Sad: Heartwarming Muffins, Puddings, or Sweet Cookies.
-- Use a sophisticated 'Dessert Sommelier' tone in the response.
+- CRITICAL: KEEP YOUR RESPONSE EXTREMELY SHORT AND PUNCHY (maximum 1 short sentence). Do not give long explanations. Example: "I recommend the Pink Rose Layer Cake for your celebration!"
 
 Return ONLY the JSON object, no additional text.
 """
