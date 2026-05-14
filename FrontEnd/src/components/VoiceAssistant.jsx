@@ -88,7 +88,28 @@ const VoiceAssistant = () => {
         if (commandData.items) {
           for (const item of commandData.items) {
             const food = foodData.find(f => (f.FoodName || f.foodname || '').toLowerCase().includes(item.name.toLowerCase()));
-            if (food) await updateQuantity(food.FoodID || food.foodid, item.quantity || 1);
+            if (food) {
+              await updateQuantity(food.FoodID || food.foodid, item.quantity || 1);
+              
+              // Visual feedback for ordering
+              setTimeout(() => {
+                const allCards = document.querySelectorAll('.card');
+                allCards.forEach(card => {
+                  const title = card.querySelector('.card-title')?.textContent?.toLowerCase() || '';
+                  if (title.includes(item.name.toLowerCase())) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    card.style.transition = 'all 0.5s ease';
+                    card.style.transform = 'scale(1.1)';
+                    card.style.boxShadow = '0 0 40px #ff69b4';
+                    
+                    setTimeout(() => {
+                      card.style.transform = 'scale(1)';
+                      card.style.boxShadow = '';
+                    }, 3000);
+                  }
+                });
+              }, 500);
+            }
           }
         }
         break;
